@@ -2,16 +2,26 @@ import java.util.Arrays;
 
 public class Nonogram {
     private String[][] puzzle;
+
     private int level;
     private final static int Lt = 3;
+
+    public Nonogram(int rows, int cols) {
+        puzzle = new String[rows][cols];
+        for (int i = 0; i < rows; i++) {
+            Arrays.fill(puzzle[i], "□");
+        }
+    }
 
     public String[][] getPuzzle() {
         return puzzle;
     }
 
+
+
     public void setPuzzle(int row, int col) {
-        if (puzzle[row][col].equals("0")) {
-            puzzle[row][col] = "1";
+        if (puzzle[row][col].equals("□")) {
+            puzzle[row][col] = "■";
 
             //TODO blocks 추가 예정
 
@@ -20,13 +30,13 @@ public class Nonogram {
         }
     }
 
-
-
-    public void compareAnswer(String[][] rabitPuzzle, int row, int col) {
-        if(rabitPuzzle[row][col].equals("1")) {
+    public boolean compareAnswer(String[][] rabbitPuzzle, int row, int col) {
+        if(rabbitPuzzle[row][col].equals("■")) {
             setPuzzle(row, col);
+            return true;
         } else {
             System.out.println("틀렸습니다.");
+            return false;
         }
     }
 
@@ -41,17 +51,4 @@ public class Nonogram {
     public void setLevel(int level) {
         this.level = level;
     }
-
-    public String[][] createPuzzle() {
-        String[][] puzzle = {
-                {"0","0","0","0","0"},
-                {"0","0","0","0","0"},
-                {"0","0","0","0","0"},
-                {"0","0","0","0","0"},
-                {"0","0","0","0","0"}
-        };
-        return puzzle;
-    }
-
-
 }
