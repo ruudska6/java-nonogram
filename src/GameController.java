@@ -1,48 +1,53 @@
 import java.util.Scanner;
 
 public class GameController {
-    private final OutputView outputView;
+    private final PuzzlePrinter puzzlePrinter;
 
     public GameController() {
-        this.outputView = new OutputView();
+        this.puzzlePrinter = new PuzzlePrinter();
     }
 
     public void RunGame() {
         RabbitPuzzle answerPuzzle = new RabbitPuzzle();
-        Nonogram nonogram = new Nonogram(answerPuzzle.getAnswerPuzzle().length, answerPuzzle.getAnswerPuzzle()[0].length);
+        Nonogram nonogram = new Nonogram(answerPuzzle.getPuzzle().length, answerPuzzle.getPuzzle()[0].length);
         Scanner sc = new Scanner(System.in);
         String[][] userPuzzle = nonogram.getPuzzle();
 
         while(true) {
-            outputView.showPuzzle(
+            puzzlePrinter.showPuzzle(
                     userPuzzle,
-                    answerPuzzle.getRowAnswerIndex(),
-                    answerPuzzle.getColAnswerIndex()
+                    answerPuzzle.getRowHints(),
+                    answerPuzzle.getColHints()
             );
 
-            System.out.print("행을 입력해주세요 >");
+            System.out.print("행을 입력해주세요 > ");
             int row = sc.nextInt() - 1;
-            if (row > userPuzzle.length) {
-                System.out.println(userPuzzle.length + "미만의 숫자를 입력해주세요");
+            if (row >= userPuzzle.length) {
+                System.out.println("1이상 " + userPuzzle.length + "미만의 숫자를 입력해주세요");
                 continue;
             }
 
             System.out.print("열을 입력해주세요 > ");
             int col = sc.nextInt() - 1;
-            if (col > userPuzzle.length) {
-                System.out.println(userPuzzle.length + "미만의 숫자를 입력해주세요");
+            if (col >= userPuzzle.length) {
+                System.out.println("1이상 " + userPuzzle.length + "미만의 숫자를 입력해주세요");
                 continue;
             }
 
-            boolean isAnswer = nonogram.compareAnswer(answerPuzzle.getAnswerPuzzle(), row, col);
-            outputView.showPuzzle(
-                    userPuzzle,
-                    answerPuzzle.getRowAnswerIndex(),
-                    answerPuzzle.getColAnswerIndex()
-            );
+            nonogram.compareAnswer(answerPuzzle.getPuzzle(), row, col);
 
-            if (nonogram.clearCondition(userPuzzle, answerPuzzle.getAnswerPuzzle())) {
-                System.out.println("축하드립니다. 게임에 성공하셨습니다.");
+            if (nonogram.getLIFE() == 0) {
+                System.out.println("GAME OVER!! ");
+                break;
+            }
+
+            if (nonogram.clearCondition(userPuzzle, answerPuzzle.getPuzzle())) {
+                System.out.println("축하드립니다 \uD83C\uDF89 게임을 클리어하셨습니다!!");
+                puzzlePrinter.showPuzzle(
+                        userPuzzle,
+                        answerPuzzle.getRowHints(),
+                        answerPuzzle.getColHints()
+                );
                 break;
             }
         }

@@ -2,9 +2,7 @@ import java.util.Arrays;
 
 public class Nonogram {
     private String[][] puzzle;
-
-    private int level;
-    private final static int Lt = 3;
+    private static int LIFE = 3;
 
     public Nonogram(int rows, int cols) {
         puzzle = new String[rows][cols];
@@ -30,13 +28,12 @@ public class Nonogram {
         }
     }
 
-    public boolean compareAnswer(String[][] rabbitPuzzle, int row, int col) {
+    public void compareAnswer(String[][] rabbitPuzzle, int row, int col) {
         if(rabbitPuzzle[row][col].equals("■")) {
             setPuzzle(row, col);
-            return true;
         } else {
-            System.out.println("틀렸습니다.");
-            return false;
+            System.out.println("틀렸습니다. 목숨 -1");
+            System.out.println("현재 목숨: " + --LIFE);
         }
     }
 
@@ -44,11 +41,11 @@ public class Nonogram {
         return Arrays.deepEquals(userPuzzle, answer);
     }
 
-    public int getLevel() {
-        return level;
+    public int getLIFE() {
+        return LIFE;
     }
 
-    public void setLevel(int level) {
-        this.level = level;
+    public int InputWrongAnswer() {
+        return --LIFE;
     }
 }
