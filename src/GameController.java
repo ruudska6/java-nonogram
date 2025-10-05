@@ -15,14 +15,30 @@ public class GameController {
         String[][] userPuzzle = nonogram.getPuzzle();
 
 
-        System.out.print("난이도를 설정해주세요 (1~5): ");
-        int levelNum = sc.nextInt();
+        System.out.print("난이도를 설정해주세요 (1~5): > ");
+
+        int levelNum = 0;
+        while (true) {
+            if (!sc.hasNextInt()) {
+                System.out.println("숫자를 입력해주세요!");
+                sc.next();
+                continue;
+            }
+
+            levelNum = sc.nextInt();
+
+            if (levelNum >= 1 && levelNum <= 5) {
+                break;
+            } else {
+                System.out.println("잘못된 난이도입니다. 1~5 사이의 숫자를 입력해주세요.");
+            }
+        }
 
         Level selectedLevel = Level.valueOf("LEVEL" + levelNum);
-
         nonogram.setLevel(selectedLevel);
 
         System.out.println("난이도 설정 완료! 현재 목숨: " + nonogram.getLife());
+
 
         while(true) {
             puzzlePrinter.showPuzzle(
