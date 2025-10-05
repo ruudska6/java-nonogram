@@ -1,3 +1,5 @@
+package puzzle;
+
 public class RabbitPuzzle implements Puzzle {
     private final String[][] answerPuzzle = {
             {"■", "□", "□", "□", "■"},
