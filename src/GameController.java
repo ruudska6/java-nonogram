@@ -10,8 +10,19 @@ public class GameController {
     public void RunGame() {
         RabbitPuzzle answerPuzzle = new RabbitPuzzle();
         Nonogram nonogram = new Nonogram(answerPuzzle.getPuzzle().length, answerPuzzle.getPuzzle()[0].length);
+
         Scanner sc = new Scanner(System.in);
         String[][] userPuzzle = nonogram.getPuzzle();
+
+
+        System.out.print("난이도를 설정해주세요 (1~5): ");
+        int levelNum = sc.nextInt();
+
+        Level selectedLevel = Level.valueOf("LEVEL" + levelNum);
+
+        nonogram.setLevel(selectedLevel);
+
+        System.out.println("난이도 설정 완료! 현재 목숨: " + nonogram.getLife());
 
         while(true) {
             puzzlePrinter.showPuzzle(
@@ -36,7 +47,7 @@ public class GameController {
 
             nonogram.compareAnswer(answerPuzzle.getPuzzle(), row, col);
 
-            if (nonogram.getLIFE() == 0) {
+            if (nonogram.getLife() == 0) {
                 System.out.println("GAME OVER!! ");
                 break;
             }

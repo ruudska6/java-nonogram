@@ -2,7 +2,8 @@ import java.util.Arrays;
 
 public class Nonogram {
     private String[][] puzzle;
-    private static int LIFE = 3;
+    private int life = 3;
+    private Level level;
 
     public Nonogram(int rows, int cols) {
         puzzle = new String[rows][cols];
@@ -11,9 +12,17 @@ public class Nonogram {
         }
     }
 
+    public void setLevel(Level level) {
+        this.level = level;
+        this.life = level.getLife();
+        System.out.println("현재 레벨: " + level + " | 목숨: " + life);
+    }
+
+
     public String[][] getPuzzle() {
         return puzzle;
     }
+
 
 
 
@@ -33,7 +42,7 @@ public class Nonogram {
             setPuzzle(row, col);
         } else {
             System.out.println("틀렸습니다. 목숨 -1");
-            System.out.println("현재 목숨: " + --LIFE);
+            System.out.println("현재 목숨: " + --life);
         }
     }
 
@@ -41,11 +50,7 @@ public class Nonogram {
         return Arrays.deepEquals(userPuzzle, answer);
     }
 
-    public int getLIFE() {
-        return LIFE;
-    }
-
-    public int InputWrongAnswer() {
-        return --LIFE;
+    public int getLife() {
+        return life;
     }
 }
